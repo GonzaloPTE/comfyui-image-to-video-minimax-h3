@@ -35,7 +35,8 @@
         0
       ],
       "lora_name": "minimax_h3_turbo_v4_step600_ema.safetensors",
-      "strength_model": 1.0
+      "strength": 1.0,
+      "low_vram": false
     },
     "_meta": {
       "title": "MiniMaxH3TurboLoRA"
@@ -101,7 +102,8 @@
       "prompt": "The subject from the reference image smiles, winks, and waves happily to the camera. Cinematic lighting, fluid motion.\nAudio: gentle cheerful acoustic melody, warm voice greeting.",
       "width": 768,
       "height": 576,
-      "length": 124
+      "length": 124,
+      "ref_image_size": "match"
     },
     "_meta": {
       "title": "MiniMaxH3ReferenceToVideo"
