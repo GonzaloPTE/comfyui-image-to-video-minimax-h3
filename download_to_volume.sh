@@ -2,7 +2,6 @@
 # ==============================================================================
 # Script de descarga rápida para Network Volume en RunPod
 # Ejecutar en la terminal de un Pod temporal conectado al Network Volume
-# (El volumen se monta en /workspace en Pods y en /runpod-volume en Serverless)
 # ==============================================================================
 
 set -e
@@ -13,18 +12,17 @@ mkdir -p /workspace/models/diffusion_models \
          /workspace/models/vae \
          /workspace/models/loras
 
-# Detectar herramienta de descarga rápida
 if command -v aria2c &> /dev/null; then
     DL_CMD="aria2c -x 16 -s 16 -k 1M -c"
 else
     DL_CMD="wget -c"
 fi
 
-echo "=== 2. Descargando UNET (19.53 GB) ==="
-$DL_CMD "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors" \
-    -o /workspace/models/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors \
-    || wget -c "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors" \
-    -O /workspace/models/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors
+echo "=== 2. Descargando UNET Reference-to-Video (R2V) (19.53 GB) ==="
+$DL_CMD "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors" \
+    -o /workspace/models/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors \
+    || wget -c "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors" \
+    -O /workspace/models/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors
 
 echo "=== 3. Descargando Text Encoder / LLM (14.61 GB) ==="
 $DL_CMD "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors" \
