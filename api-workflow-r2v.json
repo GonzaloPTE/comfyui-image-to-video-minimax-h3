@@ -95,15 +95,15 @@
         "120",
         0
       ],
-      "ref_image_0": [
-        "137",
-        0
-      ],
       "prompt": "The subject from the reference image smiles, winks, and waves happily to the camera. Cinematic lighting, fluid motion.\nAudio: gentle cheerful acoustic melody, warm voice greeting.",
       "width": 768,
       "height": 576,
       "length": 124,
-      "ref_image_size": "match"
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "137",
+        0
+      ]
     },
     "_meta": {
       "title": "MiniMaxH3ReferenceToVideo"
