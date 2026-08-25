@@ -4,7 +4,8 @@ FROM runpod/worker-comfyui:5.8.4-base
 # 1. Update ComfyUI to latest master (provides native MiniMaxH3ReferenceToVideo and new audio-video schedulers)
 RUN git -C /comfyui fetch origin master && \
     git -C /comfyui reset --hard origin/master && \
-    if [ -f /comfyui/requirements.txt ]; then pip install -r /comfyui/requirements.txt; fi
+    if [ -f /comfyui/requirements.txt ]; then pip install -r /comfyui/requirements.txt; fi && \
+    pip uninstall -y comfy-aimdo || true
 
 # 2. Install MiniMax-H3 Turbo custom node
 RUN git clone https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo /comfyui/custom_nodes/ComfyUI-MiniMax-H3-Turbo && \
