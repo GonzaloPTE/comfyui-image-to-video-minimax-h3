@@ -1,11 +1,11 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
 FROM runpod/worker-comfyui:5.8.4-base
 
-# 1. Update ComfyUI to latest master (provides native MiniMaxH3ReferenceToVideo and new audio-video schedulers)
+# 1. Update ComfyUI to latest master and install dependencies
 RUN git -C /comfyui fetch origin master && \
     git -C /comfyui reset --hard origin/master && \
-    if [ -f /comfyui/requirements.txt ]; then pip install -r /comfyui/requirements.txt; fi && \
-    pip uninstall -y comfy-aimdo || true
+    pip install -r /comfyui/requirements.txt && \
+    sed -i 's|/comfyui/main.py|/comfyui/main.py --disable-mmap|g' /start.sh
 
 # 2. Install MiniMax-H3 Turbo custom node
 RUN git clone https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo /comfyui/custom_nodes/ComfyUI-MiniMax-H3-Turbo && \
