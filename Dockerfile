@@ -5,11 +5,11 @@ FROM runpod/worker-comfyui:5.8.4-base
 RUN git -C /comfyui fetch origin master && \
     git -C /comfyui reset --hard origin/master
 
-# 2. Install comfy-aimdo in the worker virtualenv without touching CUDA PyTorch
-RUN /opt/venv/bin/pip install --no-cache-dir comfy-aimdo
+# 2. Install all latest ComfyUI dependencies into /opt/venv with CUDA PyTorch index
+RUN /opt/venv/bin/pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu124 -r /comfyui/requirements.txt
 
-# 3. Patch start.sh with --disable-mmap for reliable Network Volume tensor loading
-RUN sed -i 's|/comfyui/main.py|/comfyui/main.py --disable-mmap|g' /start.sh
+# 3. Enable --disable-mmap by default in cli_args.py for reliable Network Volume tensor loading
+RUN sed -i 's|"--disable-mmap", action="store_true"|"--disable-mmap", action="store_true", default=True|g' /comfyui/comfy/cli_args.py
 
 # 4. Install MiniMax-H3 Turbo custom node
 RUN git clone https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo /comfyui/custom_nodes/ComfyUI-MiniMax-H3-Turbo && \
