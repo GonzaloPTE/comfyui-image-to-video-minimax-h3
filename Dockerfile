@@ -8,8 +8,9 @@ RUN git -C /comfyui fetch origin master && \
 # 2. Install all latest ComfyUI dependencies into /opt/venv with CUDA PyTorch index
 RUN /opt/venv/bin/pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu124 -r /comfyui/requirements.txt
 
-# 3. Configure PyTorch memory management
+# 3. Configure PyTorch & ComfyUI memory management
 ENV PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+RUN sed -i 's|"--disable-pinned-memory", action="store_true"|"--disable-pinned-memory", action="store_true", default=True|g' /comfyui/comfy/cli_args.py
 
 # 4. Install MiniMax-H3 Turbo custom node
 RUN git clone https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo /comfyui/custom_nodes/ComfyUI-MiniMax-H3-Turbo && \
