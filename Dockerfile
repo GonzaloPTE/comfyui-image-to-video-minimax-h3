@@ -8,8 +8,8 @@ RUN git -C /comfyui fetch origin master && \
 # 2. Install all latest ComfyUI dependencies into /opt/venv with CUDA PyTorch index
 RUN /opt/venv/bin/pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu124 -r /comfyui/requirements.txt
 
-# 3. Enable --disable-mmap by default in cli_args.py for reliable Network Volume tensor loading
-RUN sed -i 's|"--disable-mmap", action="store_true"|"--disable-mmap", action="store_true", default=True|g' /comfyui/comfy/cli_args.py
+# 3. Configure PyTorch memory management
+ENV PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # 4. Install MiniMax-H3 Turbo custom node
 RUN git clone https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo /comfyui/custom_nodes/ComfyUI-MiniMax-H3-Turbo && \
